@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>9</version>
+  </parent>
+
+  <groupId>xyz.jetdrone</groupId>
+  <artifactId>hang-around</artifactId>
+  <version>0.0.1</version>
+
+  <packaging>jar</packaging>
+
+  <name>async-await</name>
+  <description>async-await but for vert.x</description>
+
+  <issueManagement>
+    <url>https://github.com/pmlopes/hang-around/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <scm>
+    <url>https://github.com/pmlopes/hang-around</url>
+    <connection>scm:git:git://github.com/pmlopes/hang-around.git</connection>
+    <developerConnection>scm:git:git@github.com:pmlopes/hang-around.git</developerConnection>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <distribution>repo</distribution>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+    </license>
+  </licenses>
+
+  <properties>
+    <vertx.version>4.3.1-SNAPSHOT</vertx.version>
+    <maven.compiler.source>19</maven.compiler.source>
+    <maven.compiler.testTarget>19</maven.compiler.testTarget>
+    <maven.compiler.testSource>19</maven.compiler.testSource>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-unit</artifactId>
+      <version>${vertx.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>1.15.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-redis-client</artifactId>
+      <version>${vertx.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <release>19</release>
+          <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M4</version>
+        <configuration>
+          <argLine>--enable-preview</argLine>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <version>1.7.0</version>
+        <configuration>
+          <installProject>false</installProject>
+          <gitFlowConfig>
+            <productionBranch>main</productionBranch>
+            <developmentBranch>develop</developmentBranch>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+            <supportBranchPrefix>support/</supportBranchPrefix>
+            <versionTagPrefix/>
+          </gitFlowConfig>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
