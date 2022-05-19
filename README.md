@@ -17,9 +17,12 @@ public class Demo extends AbstractVerticle {
 
   @Override
   public void start(Promise<Void> start) {
-    // wrap this block as a Virtual Thread so we can await (block) at any time without interfere with the event loop
+    // wrap this block as a Virtual Thread so we can await (block) at any time
+    // without interfere with the event loop
     asyncRun(() -> {
-      Redis redis = Redis.createClient(vertx, new RedisOptions().setMaxPoolSize(32).setMaxPoolWaiting(128));
+      Redis redis = Redis.createClient(
+        vertx,
+        new RedisOptions().setMaxPoolSize(32).setMaxPoolWaiting(128));
 
       System.out.println("Will count calls to: counter");
       // look blocking but not the event loop!
