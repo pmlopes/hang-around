@@ -21,6 +21,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 
+import java.util.concurrent.locks.LockSupport;
+
 public final class AsyncAwait {
 
     private static final Logger LOG = LoggerFactory.getLogger(AsyncAwait.class);
@@ -57,34 +59,36 @@ public final class AsyncAwait {
             throw new IllegalStateException("async-await thread mismatch");
         }
 
-        return new AsyncAwaitResult<>(future).get();
+        return new AsyncAwaitResult<>(carrier, future).get();
     }
 
     private static final class AsyncAwaitResult<T> implements Handler<AsyncResult<T>> {
 
+        private final Thread thread;
         private AsyncResult<T> ref;
 
-        AsyncAwaitResult(Future<T> future) {
+        AsyncAwaitResult(Thread thread, Future<T> future) {
+            this.thread = thread;
             future.onComplete(this);
         }
 
         @Override
         public void handle(AsyncResult<T> event) {
             this.ref = event;
-            synchronized (this) {
-                notify();
-            }
+            LockSupport.unpark(thread);
         }
 
         public T get() {
-            try {
-                synchronized (this) {
-                    wait();
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            LockSupport.park();
+            // several things could lead to an unpark
+
+            // 1. the thread was interrupted
+            if (Thread.interrupted()) {
+                // this could be problematic as the result has not been handled yet
+                throw new IllegalStateException("async-await thread was interrupted");
             }
 
+            // 1. unpark was called
             if (ref.succeeded()) {
                 return ref.result();
             } else {

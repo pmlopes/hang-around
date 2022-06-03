@@ -62,22 +62,22 @@ the best idea for performance testing anyway), This application performs as:
 ~/Projects/tmp $ wrk -t2 -c100 -d10s http://127.0.0.1:8000
 Running 10s test @ http://127.0.0.1:8000
   2 threads and 100 connections
-  Thread Stats   Avg    Stdev   Max   +/- Stdev
-  Latency   4.60ms  9.17ms 173.29ms   97.07%
-  Req/Sec  14.77k   4.75k   18.31k  80.30%
-  291108 requests in 10.00s, 12.11MB read
-Requests/sec:  29098.22
-Transfer/sec:    1.21MB
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.62ms   12.54ms 212.71ms   97.60%
+    Req/Sec    17.23k     5.85k   23.93k    78.79%
+  339750 requests in 10.01s, 14.15MB read
+Requests/sec:  33932.29
+Transfer/sec:      1.41MB
 ~/Projects/tmp $ wrk -t2 -c100 -d10s http://127.0.0.1:8000
 Running 10s test @ http://127.0.0.1:8000
   2 threads and 100 connections
-  Thread Stats   Avg    Stdev   Max   +/- Stdev
-  Latency   2.97ms  1.69ms  52.52ms   97.31%
-  Req/Sec  17.19k   1.84k   18.99k  93.00%
-  342196 requests in 10.01s, 14.36MB read
-Requests/sec:  34191.13
-Transfer/sec:    1.43MB
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     2.48ms    0.98ms  24.25ms   94.57%
+    Req/Sec    20.64k     1.90k   23.65k    94.50%
+  410919 requests in 10.00s, 17.24MB read
+Requests/sec:  41071.70
+Transfer/sec:      1.72MB
 ~/Projects/tmp $ 
 ```
 
-After a warm-up cycle of 10s, it can deliver `~34191 req/s`. Not bad, right?
+After a warm-up cycle of 10s, it can deliver `~41071 req/s`. Not bad, right?
